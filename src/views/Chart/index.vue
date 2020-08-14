@@ -1,84 +1,88 @@
 <template>
   <div class="wrap">
-    <h1>BarChart 柱状图</h1>
-    <p>基于echarts的柱状图组件。为了优化组件库构建包的体积，使用该组件需要将echarts在主文件中引入。</p>
-    <h4>基础功能</h4>
-    <p>通过options prop 渲染图表。</p>
-    <div class="box">
-      <singleChart
-        width="60%"
-        height="400px"
-        :xAxisList="xAxisList"
-        :yAxisList="yAxisList"
-        :nameTxt="nameTxt"
-      ></singleChart>
-      <p class="tip">
-        <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="显示代码" name="1">
-             {{'html'}}
-          </el-collapse-item>
-        </el-collapse>
-      </p>
-    </div>
+    <yui-chart width="100%" height="300px" :options="options"/>
+    <yui-chart width="100%" height="300px" :options="manyOptions"/>
+    <yui-chart width="100%" height="300px" :options="brokenLine"/>
+    <yui-chart width="100%" height="300px" :options="sAndOptions"/>
   </div>
 </template>
 <script>
-
-
-import singleChart from "../components/singleChart";
+import barChart from "../util/barChart";
+import sAndChart from '../util/lineChart'
 export default {
-  components: {
-    singleChart
-  },
   data() {
     return {
-      remote: {
-        activeNames: ["1"]
-      },
-      asycnData: {},
-      xAxisList: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], //x轴数组集
-      yAxisList: [10, 22, 33, 44, 54, 77, 66], //y轴数组集
-      nameTxt: "报名数量"
+      options: {},//单柱状图
+      manyOptions: {},//双柱状图
+      brokenLine:{},//柱状图+折线图
+      sAndOptions:{},//单双折线图
     };
   },
-  methods: {
-    handleChange(val) {
-      console.log(val);
+  mounted() {
+    //单柱状图
+    let data = [
+      ["开屏", "banner", "搜索", "推荐", "猜你喜欢"],
+      [22.2, 17.7, 13.3, 6.6, 5.5]
+    ];//x、y轴数据
+    this.options = barChart.barSingle(data, {
+      rotate: 0, //x轴旋转度数
+      show: true, //是否显示y轴及刻度
+      yname: "(万元)", //y轴top文案
+      // colorList:["#3DC06A", "#4184D5"],//单柱状图颜色
+      legend: "商品库存数量", //右侧提示文案
+      // chartStyle:{},//图表是否实线显示
+      tooltip:true,//是否显示鼠标悬浮样式
+    });
+    
+    //双柱状图
+    let manyData = [
+      ["开屏", "banner", "搜索", "推荐", "猜你喜欢"],
+      [22.2, 17.7, 13.3, 6.6, 5.5],
+      [33, 22, 18, 42, 55],
+    ];//x、y轴数据
+    this.manyOptions = barChart.manyChart(manyData, {
+      rotate: 0, //x轴旋转度数
+      show: true, //是否显示y轴及刻度
+      // yname: "(万元)", //y轴top文案
+      colorList:["#189CEA", "#3DC06A"],//双柱状图颜色
+      legend: ["订单量","下单药店数"], //右侧提示文案
+      // chartStyle:{},//图表是否实线显示
+      tooltip:true,//是否显示鼠标悬浮样式
+      right:0,//legend位置设置(默认居中)
+    });
+
+
+    //柱状图+折线图
+    let lineData = [
+      ["开屏", "banner", "搜索", "推荐", "猜你喜欢"],
+      [5000, 10000, 15000, 20000, 25000],
+      [22.2, 17.7, 13.3, 6.6, 5.5]
+    ];//x、y轴、折线图数据
+    this.brokenLine = barChart.barLine(lineData, {
+      bar: { name: "商品销量", value: "number" },//y轴top文案
+      line: {
+        name: "下单药店个数",
+        value: "pharmacyNumber",
+        axisLeft: "商品销量",
+        axisRight: "下单药店数"
+      },//柱状图提示文案
+    });
+
+
+    //单双折线图
+    let sAndData = ["开屏", "banner", "搜索", "推荐", "猜你喜欢"];//x轴数据
+    let yData = [[22.2, 17.7, 13.3, 6.6, 5.5],[10, 17.7, 24, 8, 30]]//y轴数据
+    this.sAndOptions = sAndChart.manyLine(sAndData,
+    ['曝光商品数', '点击商品数'],
+    yData,
+    {
+      yname: "(元)", //y轴top文案
+      // ifSmoth: true,//折线图是否为实心
+      // icon:true,//icon形状是否为折线
+      setlineType:true,//是否实线、虚线结合
+      ifLegend:true,//不显示右侧文案
     }
+    );
   }
 };
 </script>
-<style>
-.wrap {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-left: 40px;
-  box-sizing: border-box;
-}
-h1 {
-  margin: 0;
-}
-h4 {
-  margin-top: 20px;
-  margin-bottom: 0px;
-}
-.box {
-  width: 60%;
-  height: 500px;
-  border: 1px solid #eee;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.tip{
-  width:100%;
-  height: auto;
-  border-top:1px solid #eee;
-  margin-top:40px;
-  padding-top:20px;
-}
-</style>

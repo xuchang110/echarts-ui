@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Chart from '@/views/chart';
+import Chart from '@/views/Chart';
 Vue.use(Router)
 
 export default new Router({
