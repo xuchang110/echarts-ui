@@ -1,11 +1,11 @@
 /**
  * @description echarts参数
- * @author Thales
+ * @author Pudding
  */
-
+const BASIC_TIPS = 10;
 /**
  * 单柱状图
- * @param {array} arr xy轴数组
+ * @param {array} arr x、y轴数据
  * @param {object} props 匹配
  */
 const barSingle = (arr, props) => {
@@ -20,14 +20,14 @@ const barSingle = (arr, props) => {
     chartStyle,
     tooltip
   } = props;
-  let colorFun =function(params) {
-    var colorLists = colorList||["#3DC06A", "#4184D5"];
+  let colorFun = function (params) {
+    var colorLists = colorList || ["#3DC06A", "#4184D5"];
     return colorLists[params.dataIndex]
-};
+  };
   xData = arr[0];
   yData = arr[1];
   return {
-    tooltip: tooltip?{
+    tooltip: tooltip ? {
       trigger: 'axis',
       position: 'top',
       axisPointer: {
@@ -36,12 +36,32 @@ const barSingle = (arr, props) => {
           opacity: 0.5
         }
       }
-    }:'',
+    } : '',
     //右侧提示文案
     legend: {
       right: 0,
       data: [legend]
-    }||{},
+    } || {},
+    dataZoom:
+      xData.length > BASIC_TIPS
+        ? [
+          {
+            show: true,
+            textStyle: false,
+            realtime: true,
+            zoomLock: true,
+            filterMode: 'empty',
+            start: 100 - Math.floor((BASIC_TIPS / xData.length) * 100),
+            end: 100
+          }
+          // {
+          //   type: "inside",
+          //   realtime: true,
+          //   start: 0,
+          //   end: 50
+          // }
+        ]
+        : [],
     xAxis: {
       type: "category",
       axisLabel: {
@@ -64,9 +84,9 @@ const barSingle = (arr, props) => {
       }
     },
     yAxis: {
-      show:show,
+      show: show,
       type: 'value',
-      name: yname||'',
+      name: yname || '',
       nameTextStyle: {
         align: 'right',
         color: '#838484'
@@ -77,15 +97,15 @@ const barSingle = (arr, props) => {
         axisTick: { show: false }
       },
       axisLabel: { textStyle: { 'color': '#838484', 'fontSize': '12' } },
-      splitLine: chartStyle||{
+      splitLine: chartStyle || {
         show: true,
         lineStyle: {
           color: '#CCCCCC',
           type: 'dotted'
         }
       },
-      axisLine: chartStyle||{ show: false },
-      axisTick: chartStyle||{ show: false }
+      axisLine: chartStyle || { show: false },
+      axisTick: chartStyle || { show: false }
     },
     grid: {
       left: "25px",
@@ -96,9 +116,9 @@ const barSingle = (arr, props) => {
     },
     series: [
       {
-        name:legend,
+        name: legend,
         itemStyle: {//传
-          color: colorList?colorFun:"#189CEA",
+          color: colorList ? colorFun : "#189CEA",
           barBorderRadius: [4, 4, 0, 0]
         },
         barCategoryGap: "60%",
@@ -121,7 +141,7 @@ const barSingle = (arr, props) => {
 
 /**
  * 双柱状图
- * @param {array} arr xy轴数组
+ * @param {array} arr x、y轴数据
  * @param {object} props 匹配
  */
 const manyChart = (arr, props) => {
@@ -142,7 +162,7 @@ const manyChart = (arr, props) => {
   yData = arr[1];
   yDatab = arr[2];
   return {
-    tooltip: tooltip?{
+    tooltip: tooltip ? {
       trigger: 'axis',
       position: 'top',
       axisPointer: {
@@ -151,12 +171,32 @@ const manyChart = (arr, props) => {
           opacity: 0.5
         }
       }
-    }:'',
+    } : '',
     //右侧提示文案
     legend: {
       right,
       data: legend
-    }||[],
+    } || [],
+    dataZoom:
+      xData.length > BASIC_TIPS
+        ? [
+          {
+            show: true,
+            textStyle: false,
+            realtime: true,
+            zoomLock: true,
+            filterMode: 'empty',
+            start: 100 - Math.floor((BASIC_TIPS / xData.length) * 100),
+            end: 100
+          }
+          // {
+          //   type: "inside",
+          //   realtime: true,
+          //   start: 0,
+          //   end: 50
+          // }
+        ]
+        : [],
     xAxis: {
       type: "category",
       axisLabel: {
@@ -179,9 +219,9 @@ const manyChart = (arr, props) => {
       }
     },
     yAxis: {
-      show:show,
+      show: show,
       type: 'value',
-      name: yname||'',
+      name: yname || '',
       nameTextStyle: {
         align: 'right',
         color: '#838484'
@@ -192,15 +232,15 @@ const manyChart = (arr, props) => {
         axisTick: { show: false }
       },
       axisLabel: { textStyle: { 'color': '#838484', 'fontSize': '12' } },
-      splitLine: chartStyle||{
+      splitLine: chartStyle || {
         show: true,
         lineStyle: {
           color: '#CCCCCC',
           type: 'dotted'
         }
       },
-      axisLine: chartStyle||{ show: false },
-      axisTick: chartStyle||{ show: false }
+      axisLine: chartStyle || { show: false },
+      axisTick: chartStyle || { show: false }
     },
     grid: {
       left: "25px",
@@ -211,7 +251,7 @@ const manyChart = (arr, props) => {
     },
     series: [
       {
-        name:legend[0],
+        name: legend[0],
         itemStyle: {
           color: colorList[0],
           barBorderRadius: [4, 4, 0, 0]
@@ -230,7 +270,7 @@ const manyChart = (arr, props) => {
         type: "bar"
       },
       {
-        name:legend[1],
+        name: legend[1],
         itemStyle: {
           color: colorList[1],
           barBorderRadius: [4, 4, 0, 0]
@@ -254,7 +294,7 @@ const manyChart = (arr, props) => {
 
 /**
  * 柱状图+线图
- * @param {array} arr 数组
+ * @param {array} arr x、y轴、折线图数据集合
  * @param {object} props 匹配
  */
 const barLine = (arr, props) => {
@@ -288,6 +328,26 @@ const barLine = (arr, props) => {
     legend: {
       data: [bar.name, line.name],
     },
+    dataZoom:
+      xData.length > BASIC_TIPS
+        ? [
+          {
+            show: true,
+            textStyle: false,
+            realtime: true,
+            zoomLock: true,
+            filterMode: 'empty',
+            start: 100 - Math.floor((BASIC_TIPS / xData.length) * 100),
+            end: 100
+          }
+          // {
+          //   type: "inside",
+          //   realtime: true,
+          //   start: 0,
+          //   end: 50
+          // }
+        ]
+        : [],
     xAxis: {
       data: xData,
       axisLabel: {
@@ -383,5 +443,5 @@ const barLine = (arr, props) => {
 };
 
 export default {
-  barSingle,manyChart, barLine
+  barSingle, manyChart, barLine
 };

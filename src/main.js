@@ -11,6 +11,7 @@ import 'echarts/lib/chart/pie';
 import 'echarts/lib/chart/funnel';
 import 'echarts/lib/chart/custom';
 import 'echarts/lib/chart/map';
+import 'echarts/lib/chart/sankey';
 // 引入提示框和标题组件
 import 'echarts/lib/component/dataZoom';
 import 'echarts/lib/component/toolbox';
