@@ -20,6 +20,7 @@ import 'echarts/lib/component/title';
 import 'echarts/lib/component/legendScroll';
 import 'echarts/lib/component/visualMap';
 import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import XyyYui from '@xyy-supply/xyy-yui';
 import '@xyy-supply/xyy-yui/lib/theme-chalk/index.css';
 

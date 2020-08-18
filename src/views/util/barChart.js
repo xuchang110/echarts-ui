@@ -302,7 +302,7 @@ const barLine = (arr, props) => {
   let lineData = []; // 线图
   let xData = []; // x轴
   let {
-    bar, line,
+    rotate,bar, line
   } = props;
   xData = arr[0];
   barData = arr[1];
@@ -352,7 +352,7 @@ const barLine = (arr, props) => {
       data: xData,
       axisLabel: {
         textStyle: { 'color': '#666666' },
-        rotate: 50,
+        rotate: rotate||0,
         interval: 0,
         margin: 10,
         formatter(value) {
