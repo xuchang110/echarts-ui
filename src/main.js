@@ -24,10 +24,26 @@ import 'element-ui/lib/theme-chalk/index.css';
 import XyyYui from '@xyy-supply/xyy-yui';
 import '@xyy-supply/xyy-yui/lib/theme-chalk/index.css';
 
+//公用方法
+import barChart from "@/views/util/barChart";
+import sAndChart from "@/views/util/sAndChart";
+import pieChart from "@/views/util/pieChart";
+import funnelChart from "@/views/util/funnelChart";
+import mapChart from "@/views/util/mapChart";
+import annularChart from "@/views/util/annularChart";
+
 Vue.config.productionTip = false
 window.echarts = echarts;
 Vue.use(ElementUI);
 Vue.use(XyyYui);
+Vue.prototype = Object.assign(Vue.prototype, {
+  barChart:barChart,
+  sAndChart:sAndChart,
+  pieChart:pieChart,
+  funnelChart:funnelChart,
+  mapChart:mapChart,
+  annularChart:annularChart
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
