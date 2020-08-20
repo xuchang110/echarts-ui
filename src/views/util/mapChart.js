@@ -32,7 +32,7 @@ const mapChartfn = (arr) => {
       name: 'MAP',
       type: 'map',
       mapType: name,
-      selectedMode: 'false', //是否允许选中多个区域
+      selectedMode: '', //是否允许选中多个区域
       data: arr
     }]
   };
